@@ -80,7 +80,8 @@ if urgency_filter:
 if location_filter:
     params["location"] = location_filter
 
-response = requests.get("http://127.0.0.1:5000/complaints", params=params)
+response = requests.get("https://your-flask-app.onrender.com/complaints", params=params)
+
 
 try:
     data = response.json()
