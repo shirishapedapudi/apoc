@@ -167,4 +167,13 @@ try:
 except Exception as e:
     st.error(f"❌ Backend error: {e}")
     st.error(f"Response content: {response.text}")
+response = requests.post("http://127.0.0.1:5000/process_audio", files=files)
+
+try:
+    result = response.json()
+except ValueError:
+    st.error("❌ Invalid JSON response from backend.")
+    st.write(response.text)  # Debugging info
+    st.stop()
+
 
