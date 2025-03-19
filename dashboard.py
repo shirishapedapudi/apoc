@@ -5,6 +5,9 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+# --- Set Backend URL ---
+BACKEND_URL = "https://your-backend.onrender.com"  # <--- 🔴 Change this to your actual Render URL after deployment
+
 # --- Page Config ---
 st.set_page_config(page_title="Airport APOC Dashboard", layout="wide")
 
@@ -40,7 +43,8 @@ if audio_file is not None:
     with st.spinner("Processing Audio..."):
         files = {"file": (audio_file.name, audio_file, "audio/wav")}
         try:
-            response = requests.post("http://127.0.0.1:5000/upload", files=files)
+            # 🔵 UPDATED POST request
+            response = requests.post(f"{BACKEND_URL}/upload", files=files)
             response.raise_for_status()
             result = response.json()
             st.success("✅ Complaint uploaded and processed successfully!")
@@ -79,9 +83,9 @@ if urgency_filter:
 if location_filter:
     params["location"] = location_filter
 
-response = requests.get("http://127.0.0.1:5000/complaints", params=params)
-
 try:
+    # 🔵 UPDATED GET request
+    response = requests.get(f"{BACKEND_URL}/complaints", params=params)
     data = response.json()
     if data:
         df = pd.DataFrame(data)
