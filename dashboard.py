@@ -8,7 +8,6 @@ import plotly.graph_objects as go
 # --- Page Config ---
 st.set_page_config(page_title="Airport APOC Dashboard", layout="wide")
 
-
 # --- Custom CSS Styling ---
 st.markdown("""
     <style>
@@ -80,9 +79,7 @@ if urgency_filter:
 if location_filter:
     params["location"] = location_filter
 
-response = requests.get("https://airport-backend.onrender.com/complaints", params=params)
-
-
+response = requests.get("http://127.0.0.1:5000/complaints", params=params)
 
 try:
     data = response.json()
@@ -94,7 +91,6 @@ try:
         # --- Metrics ---
         st.subheader("📊 Dashboard Overview")
         col1, col2, col3, col4 = st.columns(4)
-        
         with col1:
             st.markdown('<div class="metric-container">', unsafe_allow_html=True)
             st.metric("Total Complaints", len(df))
@@ -167,13 +163,3 @@ try:
 except Exception as e:
     st.error(f"❌ Backend error: {e}")
     st.error(f"Response content: {response.text}")
-response = requests.post("http://127.0.0.1:5000/process_audio", files=files)
-
-try:
-    result = response.json()
-except ValueError:
-    st.error("❌ Invalid JSON response from backend.")
-    st.write(response.text)  # Debugging info
-    st.stop()
-
-
